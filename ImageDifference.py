@@ -6,7 +6,7 @@ import numpy as np
 
 # custom modules
 from TreeCount import TreeCount
-
+from VisualSimilarity import Similarity
 
 class ImageDifference:
     def __init__(self):
@@ -14,6 +14,8 @@ class ImageDifference:
         self.image2 = None
         # init class instances 
         self.treeCount = TreeCount()
+        self.similarityModel = Similarity()
+        
     
     
     def calculateDifference(self,imgPath1,imgPath2):
@@ -24,6 +26,7 @@ class ImageDifference:
         # calling functions
         print(self.getBrightnessDifference())
         print(self.getTreeCountDifference())
+        print(self.getVisualDifference())
    
         
     # method to calculate brightness difference b/w two images
@@ -60,7 +63,9 @@ class ImageDifference:
             return "Image 2 has {} more trees than Image 1".format(diff)
 
         
-
+    # method to calculate overall visual difference b/w two images
+    def getVisualDifference(self):
+       return self.similarityModel.getSimilarity(self.image1,self.image2)
 
 if __name__ == "__main__":
     # all the given image files
