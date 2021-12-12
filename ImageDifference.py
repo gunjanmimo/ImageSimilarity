@@ -4,14 +4,16 @@ warnings.filterwarnings("ignore")
 from PIL import Image,ImageStat
 import numpy as np
 
-
+# custom modules
+from TreeCount import TreeCount
 
 
 class ImageDifference:
     def __init__(self):
         self.image1 = None
         self.image2 = None
-      
+        # init class instances 
+        self.treeCount = TreeCount()
     
     
     def calculateDifference(self,imgPath1,imgPath2):
@@ -21,6 +23,7 @@ class ImageDifference:
         self.image2 = Image.open(imgPath2)
         # calling functions
         print(self.getBrightnessDifference())
+        print(self.getTreeCountDifference())
    
         
     # method to calculate brightness difference b/w two images
@@ -43,7 +46,18 @@ class ImageDifference:
             diff = str(round(diff,2))+"%"
             return "Image 2 has {} more brightness than Image 1".format(diff)
        
-
+    # method to get tree count difference of two images
+    def getTreeCountDifference(self):
+        totalTrees1 = self.treeCount.getTotalTreeCount(np.array(self.image1))
+        totalTrees2 = self.treeCount.getTotalTreeCount(np.array(self.image2))
+        if totalTrees1 > totalTrees2:
+            diff = ((totalTrees1 - totalTrees2)/totalTrees1)*100
+            diff = str(round(diff,2))+"%"
+            return "Image 1 has {} more trees than Image 2".format(diff)
+        else:
+            diff = ((totalTrees2 - totalTrees1)/totalTrees2)*100
+            diff = str(round(diff,2))+"%"
+            return "Image 2 has {} more trees than Image 1".format(diff)
 
         
 
